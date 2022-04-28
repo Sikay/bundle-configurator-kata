@@ -29,4 +29,14 @@ final class BundleConfiguratorTest extends TestCase
 
         self::assertSame($productName, $bundleConfigurator->select($productName));
     }
+
+    /**
+     * @test
+     */
+    public function should_create_bundle_for_two_product(): void
+    {
+        $bundleConfigurator = new BundleConfigurator();
+
+        self::assertSame('B1', $bundleConfigurator->select('P1,P2'));
+    }
 }
