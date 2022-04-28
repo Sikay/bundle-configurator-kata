@@ -30,19 +30,22 @@ final class BundleConfiguratorTest extends TestCase
         self::assertSame($productName, $bundleConfigurator->select($productName));
     }
 
-    public function twoProductsProvider(): array
+    public function twoOrMoreProductsProvider(): array
     {
         return [
             ['P1,P2', 'B1'],
             ['P1,P4', 'B2'],
+            ['P3,P4', 'B3'],
+            ['P1,P2,P3,P4', 'B4'],
+            ['P1,P5', 'B5'],
         ];
     }
 
     /**
      * @test
-     * @dataProvider twoProductsProvider
+     * @dataProvider twoOrMoreProductsProvider
      */
-    public function should_create_bundle_for_two_product(string $productsName, string $expectBundle): void
+    public function should_create_bundle_for_two_or_more_product(string $productsName, string $expectBundle): void
     {
         $bundleConfigurator = new BundleConfigurator();
 
