@@ -51,4 +51,12 @@ final class BundleConfiguratorTest extends TestCase
 
         self::assertSame($expectBundle, $bundleConfigurator->select($productsName));
     }
+
+    /** @test */
+    public function should_create_bundle_and_return_leftover_products(): void
+    {
+        $bundleConfigurator = new BundleConfigurator();
+
+        self::assertSame('B1,P1', $bundleConfigurator->select('P1,P2,P1'));
+    }
 }

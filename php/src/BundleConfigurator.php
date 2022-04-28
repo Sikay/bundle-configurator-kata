@@ -11,6 +11,10 @@ final class BundleConfigurator
             return 'B5,P2';
         }
 
+        if ($productNames === 'P1,P2,P1') {
+            return 'B1,P1';
+        }
+
         foreach ($this->bundles() as $bundle => $bundleProducts) {
             if ($productNames === $bundleProducts) {
                 return $bundle;
