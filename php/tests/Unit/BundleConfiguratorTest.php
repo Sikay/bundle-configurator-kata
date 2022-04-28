@@ -30,21 +30,22 @@ final class BundleConfiguratorTest extends TestCase
         self::assertSame($productName, $bundleConfigurator->select($productName));
     }
 
-    /**
-     * @test
-     */
-    public function should_create_bundle_for_two_product(): void
+    public function twoProductsProvider(): array
     {
-        $bundleConfigurator = new BundleConfigurator();
-
-        self::assertSame('B1', $bundleConfigurator->select('P1,P2'));
+        return [
+            ['P1,P2', 'B1'],
+            ['P1,P4', 'B2'],
+        ];
     }
 
-    /** @test */
-    public function should_create_bundle_for_two_product_P1_P4(): void
+    /**
+     * @test
+     * @dataProvider twoProductsProvider
+     */
+    public function should_create_bundle_for_two_product(string $productsName, string $expectBundle): void
     {
         $bundleConfigurator = new BundleConfigurator();
 
-        self::assertSame('B2', $bundleConfigurator->select('P1,P4'));
+        self::assertSame($expectBundle, $bundleConfigurator->select($productsName));
     }
 }
