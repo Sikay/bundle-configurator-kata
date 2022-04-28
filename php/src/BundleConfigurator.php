@@ -26,8 +26,8 @@ final class BundleConfigurator
 
         foreach ($bundleConfiguration as $bundle => $bundleProducts) {
 
-            if(!array_diff(explode(',', $bundleProducts), $arrayProductNames)) {
-                foreach (explode(',', $bundleProducts) as $product) {
+            if(!array_diff($bundleProducts, $arrayProductNames)) {
+                foreach ($bundleProducts as $product) {
                     unset($arrayProductNames[array_search($product, $arrayProductNames)]);
                 }
                 array_unshift($arrayProductNames, $bundle);
@@ -41,11 +41,11 @@ final class BundleConfigurator
     private function bundles(): array
     {
         return [
-            'B1' => 'P1,P2',
-            'B2' => 'P1,P4',
-            'B3' => 'P3,P4',
-            'B4' => 'P1,P2,P3,P4',
-            'B5' => 'P1,P5',
+            'B1' => ['P1','P2'],
+            'B2' => ['P1','P4'],
+            'B3' => ['P3','P4'],
+            'B4' => ['P1','P2','P3','P4'],
+            'B5' => ['P1','P5'],
         ];
     }
 }
