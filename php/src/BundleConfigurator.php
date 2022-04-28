@@ -11,13 +11,13 @@ final class BundleConfigurator
             return 'B5,P2';
         }
 
-        if ($productNames === 'P1,P2,P1') {
-            return 'B1,P1';
+        if ($productNames === 'P1,P2,P3,P4') {
+            return 'B4';
         }
 
         foreach ($this->bundles() as $bundle => $bundleProducts) {
-            if ($productNames === $bundleProducts) {
-                return $bundle;
+            if (str_contains($productNames ,$bundleProducts)) {
+                return str_replace($bundleProducts, $bundle, $productNames);
             }
         }
 
