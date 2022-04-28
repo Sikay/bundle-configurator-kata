@@ -11,22 +11,28 @@ final class BundleConfigurator
             return 'B5,P2';
         }
 
-        if ($productNames === 'P2,P1') {
-            return 'B1';
-        }
-
-        if ($productNames === 'P4,P1') {
-            return 'B2';
-        }
-
         if ($productNames === 'P1,P2,P3,P4') {
             return 'B4';
         }
 
-        foreach ($this->bundles() as $bundle => $bundleProducts) {
-            if (str_contains($productNames ,$bundleProducts)) {
-                return str_replace($bundleProducts, $bundle, $productNames);
+        return $this->bundleDetector($productNames);
+
+    }
+
+    private function bundleDetector(string $productNames): string
+    {
+        $bundleConfiguration = $this->bundles();
+        $arrayProductNames = explode(',', $productNames);
+
+        foreach ($bundleConfiguration as $bundle => $bundleProducts) {
+
+            if(!array_diff(explode(',', $bundleProducts), $arrayProductNames)) {
+                foreach (explode(',', $bundleProducts) as $product) {
+                    unset($arrayProductNames[array_search($product, $arrayProductNames)]);
+                }
+                array_unshift($arrayProductNames, $bundle);
             }
+            $productNames = implode(',', $arrayProductNames);
         }
 
         return $productNames;
