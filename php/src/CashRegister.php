@@ -5,12 +5,20 @@ namespace Kata;
 
 class CashRegister
 {
+    private Cart $cart;
+    private BundleConfigurator $bunbleConfigurator;
+
     public function __construct(Cart $cart, BundleConfigurator $bunbleConfigurator)
     {
+        $this->cart = $cart;
+        $this->bunbleConfigurator = $bunbleConfigurator;
     }
 
     public function show(): string
     {
-        return 'B5,P2';
+        foreach ($this->cart->all() as $product) {
+            $productsName[] = $product->name();
+        }
+        return $this->bunbleConfigurator->select(implode(',', $productsName));
     }
 }

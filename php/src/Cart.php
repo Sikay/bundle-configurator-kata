@@ -5,6 +5,7 @@ namespace Kata;
 
 class Cart
 {
+    private array $products;
 
     public function __construct()
     {
@@ -12,6 +13,11 @@ class Cart
 
     public function add(Product $product): void
     {
+        $this->products[] = $product;
+    }
 
+    public function all(): array
+    {
+        return $this->products;
     }
 }

@@ -6,10 +6,15 @@ namespace Kata;
 class Product
 {
 
-    /**
-     * @param string $string
-     */
-    public function __construct(string $string)
+    private string $name;
+
+    public function __construct(string $name)
     {
+        $this->name = $name;
+    }
+
+    public function name(): string
+    {
+        return $this->name;
     }
 }

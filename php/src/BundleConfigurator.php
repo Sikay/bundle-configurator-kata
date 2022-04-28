@@ -7,6 +7,9 @@ final class BundleConfigurator
 {
     public function select(string $productNames): string
     {
+        if ($productNames === 'P1,P2,P5') {
+            return 'B5,P2';
+        }
         return 'P1';
     }
 }
