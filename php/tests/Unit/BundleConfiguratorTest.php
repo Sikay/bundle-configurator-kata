@@ -67,4 +67,12 @@ final class BundleConfiguratorTest extends TestCase
 
         self::assertSame('B1', $bundleConfigurator->select('P2,P1'));
     }
+
+    /** @test */
+    public function should_create_bundle_with_products_in_different_order_B2(): void
+    {
+        $bundleConfigurator = new BundleConfigurator();
+
+        self::assertSame('B2', $bundleConfigurator->select('P4,P1'));
+    }
 }

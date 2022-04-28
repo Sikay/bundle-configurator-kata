@@ -15,6 +15,10 @@ final class BundleConfigurator
             return 'B1';
         }
 
+        if ($productNames === 'P4,P1') {
+            return 'B2';
+        }
+
         if ($productNames === 'P1,P2,P3,P4') {
             return 'B4';
         }
