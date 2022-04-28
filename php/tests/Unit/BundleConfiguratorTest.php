@@ -8,19 +8,25 @@ use PHPUnit\Framework\TestCase;
 
 final class BundleConfiguratorTest extends TestCase
 {
-    /** @test */
-    public function should_not_return_bundle_for_individual_product()
+    public function individualProductsProvider(): array
     {
-        $bundleConfigurator = new BundleConfigurator();
-
-        self::assertSame('P1', $bundleConfigurator->select('P1'));
+        return [
+            ['P1'],
+            ['P2'],
+            ['P3'],
+            ['P4'],
+            ['P5'],
+        ];
     }
 
-    /** @test */
-    public function should_not_return_bundle_for_individual_product_P2()
+    /**
+     * @test
+     * @dataProvider individualProductsProvider
+     */
+    public function should_not_return_bundle_for_individual_product(string $productName): void
     {
         $bundleConfigurator = new BundleConfigurator();
 
-        self::assertSame('P2', $bundleConfigurator->select('P2'));
+        self::assertSame($productName, $bundleConfigurator->select($productName));
     }
 }
