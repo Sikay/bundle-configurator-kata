@@ -11,26 +11,23 @@ final class BundleConfigurator
             return 'B5,P2';
         }
 
-        if ($productNames === 'P1,P2') {
-            return 'B1';
-        }
-
-        if ($productNames === 'P1,P4') {
-            return 'B2';
-        }
-
-        if ($productNames === 'P3,P4') {
-            return 'B3';
-        }
-
-        if ($productNames === 'P1,P2,P3,P4') {
-            return 'B4';
-        }
-
-        if ($productNames === 'P1,P5') {
-            return 'B5';
+        foreach ($this->bundles() as $bundle => $bundleProducts) {
+            if ($productNames === $bundleProducts) {
+                return $bundle;
+            }
         }
 
         return $productNames;
+    }
+
+    private function bundles(): array
+    {
+        return [
+            'B1' => 'P1,P2',
+            'B2' => 'P1,P4',
+            'B3' => 'P3,P4',
+            'B4' => 'P1,P2,P3,P4',
+            'B5' => 'P1,P5',
+        ];
     }
 }
