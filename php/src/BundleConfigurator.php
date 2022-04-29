@@ -7,33 +7,17 @@ final class BundleConfigurator
 {
     public function select(string $productNames): string
     {
-        return $this->bundleDetector($productNames);
+        return $this->bestBundle($productNames);
     }
 
-    private function bundleDetector(string $productNames): string
+    private function bestBundle(string $productNames): string
     {
-        $bundleConfiguration = $this->bundles();
         $arrayProductNames = explode(',', $productNames);
-        $possibleBundle = [];
+        $possibleBundle = $this->allPossibleCombination($arrayProductNames);
 
-        foreach ($bundleConfiguration as $bundle => $bundleProducts) {
-
-            if(!array_diff($bundleProducts['products'], $arrayProductNames)) {
-                $possibleBundle[] = $bundle;
-            }
-        }
-
-        $maxPriceReduce = 0;
-        $bestBundle = '';
-        foreach ($possibleBundle as $bundle) {
-            if ($bundleConfiguration[$bundle]['price'] > $maxPriceReduce) {
-                $maxPriceReduce = $bundleConfiguration[$bundle]['price'];
-                $bestBundle = $bundle;
-            }
-        }
-
-        if (!empty($bestBundle)) {
-            $arrayProductNames = $this->getArrayProductNames($bundleConfiguration[$bestBundle]['products'], $arrayProductNames, $bestBundle);
+        if (!empty($possibleBundle)) {
+            $bestBundle = $this->bestPriceReduce($possibleBundle);
+            $arrayProductNames = $this->changeProductsToBundle($arrayProductNames, $bestBundle);
         }
 
         return implode(',', $arrayProductNames);
@@ -65,12 +49,40 @@ final class BundleConfigurator
         ];
     }
 
-    private function getArrayProductNames($products, $arrayProductNames, $bundle): array
+    private function changeProductsToBundle(array $arrayProductNames, string $bundle): array
     {
+        $products = $this->bundles()[$bundle]['products'];
         foreach ($products as $product) {
             unset($arrayProductNames[array_search($product, $arrayProductNames)]);
         }
         array_unshift($arrayProductNames, $bundle);
         return $arrayProductNames;
+    }
+
+    private function allPossibleCombination(array $arrayProductNames): array
+    {
+        $bundleConfiguration = $this->bundles();
+        $possibleBundle = [];
+
+        foreach ($bundleConfiguration as $bundle => $bundleProducts) {
+            if (!array_diff($bundleProducts['products'], $arrayProductNames)) {
+                $possibleBundle[] = $bundle;
+            }
+        }
+        return $possibleBundle;
+    }
+
+    private function bestPriceReduce(array $bundles): string
+    {
+        $bundleConfiguration = $this->bundles();
+        $maxPriceReduce = 0;
+        $bestBundle = '';
+        foreach ($bundles as $bundle) {
+            if ($bundleConfiguration[$bundle]['price'] > $maxPriceReduce) {
+                $maxPriceReduce = $bundleConfiguration[$bundle]['price'];
+                $bestBundle = $bundle;
+            }
+        }
+        return $bestBundle;
     }
 }
