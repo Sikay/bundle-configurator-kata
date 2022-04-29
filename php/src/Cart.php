@@ -7,10 +7,6 @@ class Cart
 {
     private array $products;
 
-    public function __construct()
-    {
-    }
-
     public function add(Product $product): void
     {
         $this->products[] = $product;

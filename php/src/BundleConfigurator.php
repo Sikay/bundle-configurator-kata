@@ -5,22 +5,21 @@ namespace Kata;
 
 final class BundleConfigurator
 {
-    public function select(string $productNames): string
+    public function select(array $productNames): string
     {
-        return $this->bestBundle($productNames);
+        return implode(',', $this->bestBundle($productNames));
     }
 
-    private function bestBundle(string $productNames): string
+    private function bestBundle(array $productNames): array
     {
-        $arrayProductNames = explode(',', $productNames);
-        $possibleBundle = $this->allPossibleCombination($arrayProductNames);
+        $possibleBundle = $this->allPossibleCombination($productNames);
 
         if (!empty($possibleBundle)) {
             $bestBundle = $this->bestPriceReduce($possibleBundle);
-            $arrayProductNames = $this->changeProductsToBundle($arrayProductNames, $bestBundle);
+            $productNames = $this->changeProductsToBundle($productNames, $bestBundle);
         }
 
-        return implode(',', $arrayProductNames);
+        return $productNames;
     }
 
     private function bundles(): array
@@ -49,23 +48,23 @@ final class BundleConfigurator
         ];
     }
 
-    private function changeProductsToBundle(array $arrayProductNames, string $bundle): array
+    private function changeProductsToBundle(array $productNames, string $bundle): array
     {
         $products = $this->bundles()[$bundle]['products'];
         foreach ($products as $product) {
-            unset($arrayProductNames[array_search($product, $arrayProductNames)]);
+            unset($productNames[array_search($product, $productNames)]);
         }
-        array_unshift($arrayProductNames, $bundle);
-        return $arrayProductNames;
+        array_unshift($productNames, $bundle);
+        return $productNames;
     }
 
-    private function allPossibleCombination(array $arrayProductNames): array
+    private function allPossibleCombination(array $productNames): array
     {
         $bundleConfiguration = $this->bundles();
         $possibleBundle = [];
 
         foreach ($bundleConfiguration as $bundle => $bundleProducts) {
-            if (!array_diff($bundleProducts['products'], $arrayProductNames)) {
+            if (!array_diff($bundleProducts['products'], $productNames)) {
                 $possibleBundle[] = $bundle;
             }
         }

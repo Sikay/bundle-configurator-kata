@@ -16,9 +16,10 @@ class CashRegister
 
     public function show(): string
     {
+        $productsName = [];
         foreach ($this->cart->all() as $product) {
             $productsName[] = $product->name();
         }
-        return $this->bunbleConfigurator->select(implode(',', $productsName));
+        return $this->bunbleConfigurator->select($productsName);
     }
 }
